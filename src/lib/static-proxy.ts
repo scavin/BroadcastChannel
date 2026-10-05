@@ -76,6 +76,7 @@ export async function createStaticProxyResponse(request: Request, rawTarget: str
       'Cache-Control',
       'public, max-age=7776000, s-maxage=7776000',
     )
+    headers.delete('Expires')
 
     return new Response(response.body, {
       status: response.status,
