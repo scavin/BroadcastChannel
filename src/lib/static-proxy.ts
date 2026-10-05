@@ -69,6 +69,20 @@ export async function createStaticProxyResponse(request: Request, rawTarget: str
   catch {
     return new Response('Upstream fetch failed', { status: 502 })
   }
+  if (response.ok) {
+    const headers = new Headers(response.headers)
+
+    headers.set(
+      'Cache-Control',
+      'public, max-age=7776000, s-maxage=7776000',
+    )
+
+    return new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers,
+    })
+  }
 
   return new Response(response.body, response)
 }
